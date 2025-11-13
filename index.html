@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Te amo Heylin mi princesa 💖</title>
+  <style>
+    body {
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg, #ffe6f0, #fff5f7);
+      color: #333;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+      transition: background 1s ease;
+    }
+    body.night {
+      background: radial-gradient(ellipse at bottom, #4a5568, #1a202c);
+      color: #fff;
+    }
+    header {
+      text-align: center;
+      padding: 40px 20px;
+      background: #ff9ecb;
+      color: white;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      transition: all 0.5s ease-in-out;
+    }
+    body.night header { background: #3b4252; }
+    h1 { font-size: 2em; margin: 0; transition: opacity 0.5s ease-in-out; }
+    p { margin: 5px 0 0; font-size: 1.1em; }
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+    }
+    .phrase {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      margin: 10px 0;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+    .phrase:hover { transform: scale(1.02); }
+    body.night .phrase {
+      background: rgba(255,255,255,0.1);
+      box-shadow: 0 0 10px rgba(255,255,255,0.2);
+    }
+    .lang { font-weight: bold; color: #d63384; }
+    body.night .lang { color: #ffe8f4; }
+    .buttons { margin-top: 8px; }
+    button {
+      background: #ff7eb9;
+      border: none;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-right: 6px;
+      font-size: 0.9em;
+      transition: 0.3s;
+    }
+    button:hover { background: #ff5fa4; transform: scale(1.05); }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #777;
+      font-size: 0.9em;
+      padding-bottom: 20px;
+    }
+    .switch {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      width: 60px;
+      height: 30px;
+      background: #ff7eb9;
+      border-radius: 30px;
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    }
+    .switch::before {
+      content: "";
+      position: absolute;
+      width: 26px;
+      height: 26px;
+      background: white;
+      border-radius: 50%;
+      top: 2px;
+      left: 2px;
+      transition: 0.3s;
+    }
+    body.night .switch { background: #2d3748; }
+    body.night .switch::before { left: 32px; }
+    #contador {
+      text-align: center;
+      margin: 20px;
+      font-weight: bold;
+      color: #d63384;
+    }
+    body.night #contador { color: #ffe8f4; }
+    .floating-heart {
+      position: absolute;
+      font-size: 1.5em;
+      animation: floatUp 2s ease-out forwards;
+    }
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 1; }
+      100% { transform: translateY(-150px); opacity: 0; }
+    }
+    .heart {
+      position: absolute;
+      font-size: 2em;
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .heart:hover { transform: scale(1.3); }
+    #openLetter {
+      display: none;
+      margin: 40px auto;
+      background: #ff7eb9;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1em;
+      cursor: pointer;
+      display: block;
+    }
+    #gameMsg {
+      text-align: center;
+      margin-top: 20px;
+      font-weight: bold;
+      color: #d63384;
+    }
+  </style>
+</head>
+<body>
+  <div class="switch" id="modeSwitch"></div>
+
+  <header>
+    <h1 id="main-title">💖 Te amo Heylin mi princesa 💖</h1>
+    <p>En 100 idiomas, desde mi corazón 🌍</p>
+  </header>
+
+  <div id="contador"></div>
+  <div class="container" id="phrases"></div>
+
+  <!-- Mensaje de progreso o error -->
+  <div id="gameMsg"></div>
+  <button id="openLetter">💌 Abrir carta</button>
+
+  <footer>
+    Con amor de Jhonatan (Tu amor), creado para Heylin (Mi princesa) 💞
+  </footer>
+
+  <script>
+    /* --- FRASES --- */
+    const frases = [
+      {lang: "Español", text: "Te amo Heylin mi princesa"},
+      {lang: "Inglés", text: "I love you Heylin my princess"},
+      {lang: "Francés", text: "Je t’aime Heylin ma princesse"},
+      {lang: "Italiano", text: "Ti amo Heylin mia principessa"},
+      {lang: "Alemán", text: "Ich liebe dich Heylin meine Prinzessin"},
+      {lang: "Portugués", text: "Eu te amo Heylin minha princesa"},
+      {lang: "Chino mandarín", text: "我爱你 Heylin 我的公主"},
+      {lang: "Japonés", text: "愛してる Heylin 私の姫"},
+      {lang: "Coreano", text: "사랑해 Heylin 내 공주"},
+      {lang: "Ruso", text: "Я тебя люблю Heylin моя принцесса"},
+      {lang: "Chino mandarín", text: "我爱你 Heylin 我的公主 (Wǒ ài nǐ Heylin wǒ de gōngzhǔ)"},
+      {lang: "Japonés", text: "愛してる Heylin 私の姫 (Aishiteru Heylin watashi no hime)"},
+      {lang: "Coreano", text: "사랑해 Heylin 내 공주 (Saranghae Heylin nae gongju)"},
+      {lang: "Árabe", text: "أحبك Heylin أميريتي (Uhibbuki Heylin amirati)"},
+      {lang: "Hindi", text: "मैं तुमसे प्यार करता हूँ Heylin मेरी राजकुमारी (Main tumse pyar karta hoon Heylin meri rajkumari)"},
+      {lang: "Bengalí", text: "আমি তোমায় ভালোবাসি Heylin আমার রাজকন্যা (Ami tomay bhalobashi Heylin amar rajkonna)"},
+      {lang: "Urdu", text: "میں تم سے پیار کرتا ہوں Heylin میری شہزादी (Main tum se pyar karta hoon Heylin meri shehzadi)"},
+      {lang: "Turco", text: "Seni seviyorum Heylin benim prensesim"},
+      {lang: "Vietnamita", text: "Anh yêu em Heylin công chúa của anh"},
+      {lang: "Tailandés", text: "ฉันรักคุณ Heylin เจ้าหญิงของฉัน (Chan rak khun Heylin jao ying khong chan)"},
+      {lang: "Indonesio", text: "Aku cinta kamu Heylin putri ku"},
+      {lang: "Filipino (Tagalo)", text: "Mahal kita Heylin aking prinsesa"},
+      {lang: "Malayo", text: "Saya cinta padamu Heylin puteri saya"},
+      {lang: "Holandés", text: "Ik hou van jou Heylin mijn prinses"},
+      {lang: "Sueco", text: "Jag älskar dig Heylin min prinsessa"},
+      {lang: "Danés", text: "Jeg elsker dig Heylin min prinsesse"},
+      {lang: "Noruego", text: "Jeg elsker deg Heylin min prinsesse"},
+      {lang: "Finés", text: "Rakastan sinua Heylin minun prinsessani"},
+      {lang: "Polaco", text: "Kocham cię Heylin moja księżniczko"},
+      {lang: "Checo", text: "Miluji tě Heylin má princezno"},
+      {lang: "Eslovaco", text: "Ľúbim ťa Heylin moja princezná"},
+      {lang: "Húngaro", text: "Szeretlek Heylin hercegnőm"},
+      {lang: "Rumano", text: "Te iubesc Heylin prințesa mea"},
+      {lang: "Griego", text: "Σ’ αγαπώ Heylin πριγκίπισσά μου (S’agapó Heylin prigkipissa mou)"},
+      {lang: "Hebreo", text: "אני אוהב אותך Heylin הנסיכה שלי (Ani ohev otach Heylin hanesikha sheli)"},
+      {lang: "Persa (Farsi)", text: "دوستت دارم Heylin پرنسس من (Dooset daram Heylin paranses-e man)"},
+      {lang: "Swahili", text: "Nakupenda Heylin malkia wangu"},
+      {lang: "Zulú", text: "Ngiyakuthanda Heylin indlovukazi yami"},
+      {lang: "Afrikáans", text: "Ek het jou lief Heylin my prinses"},
+      {lang: "Catalán", text: "T’estimo Heylin la meva princesa"},
+      {lang: "Gallego", text: "Quérote Heylin miña princesa"},
+      {lang: "Euskera", text: "Maite zaitut Heylin nire printzesa"},
+      {lang: "Islandés", text: "Ég elska þig Heylin prinsessan mín"},
+      {lang: "Irlandés", text: "Taim i’ ngra leat Heylin mo bhanphrionsa"},
+      {lang: "Escocés gaélico", text: "Tha gaol agam ort Heylin mo bhana-phrionnsa"},
+      {lang: "Maltés", text: "Inħobbok Heylin il-prinċipessa tiegħi"},
+      {lang: "Croata", text: "Volim te Heylin moja princezo"},
+      {lang: "Serbio", text: "Волим те Heylin моја принцезо (Volim te Heylin moja princezo)"},
+      {lang: "Bosnio", text: "Volim te Heylin moja princezo"},
+      {lang: "Esloveno", text: "Ljubim te Heylin moja princesa"},
+      {lang: "Búlgaro", text: "Обичам те Heylin моя принцесо (Obicham te Heylin moya printseso)"},
+      {lang: "Macedonio", text: "Те сакам Heylin моја принцеза (Te sakam Heylin moja princeza)"},
+      {lang: "Albanés", text: "Të dua Heylin princesha ime"},
+      {lang: "Armenio", text: "Ես քեզ սիրում եմ Heylin իմ արքայադուստր (Yes k’ez sirum em Heylin im arkayadustr)"},
+      {lang: "Georgiano", text: "მიყვარხარ Heylin ჩემი პრინცესა (Mikvarhar Heylin chemi prinsesa)"},
+      {lang: "Kazajo", text: "Мен сені жақсы көремін Heylin менің ханшайымым"},
+      {lang: "Uzbeko", text: "Men seni sevaman Heylin mening malikam"},
+      {lang: "Tayiko", text: "Ман туро дӯст медорам Heylin маликаи ман"},
+      {lang: "Azerí", text: "Mən səni sevirəm Heylin mənim şahzadəm"},
+      {lang: "Kirguís", text: "Мен сени жакшы көрөм Heylin менин ханышам"},
+      {lang: "Tibetano", text: "ང་ཁྱེད་ལ་དགའ་བ་ཡོད Heylin ངའི་རྒྱལ་མོ།"},
+      {lang: "Mongol", text: "Би чамд хайртай Heylin миний гүнж"},
+      {lang: "Nepalí", text: "म तिमीलाई माया गर्छु Heylin मेरी राजकुमारी"},
+      {lang: "Sinhala", text: "මම ඔයාට ආදරෙයි Heylin මගේ රැජින"},
+      {lang: "Tamil", text: "நான் உன்னை காதலிக்கிறேன் Heylin என் ராஜகுமாரி"},
+      {lang: "Telugu", text: "నేను నిన్ను ప్రేమిస్తున్నాను Heylin నా రాజకుమారి"},
+      {lang: "Canarés", text: "ನಾನಿನ್ನ ಪ್ರೀತಿಸುತ್ತೇನೆ Heylin ನನ್ನ ರಾಜಕುಮಾರಿ"},
+      {lang: "Malabar", text: "ഞാൻ നിന്നെ സ്നേഹിക്കുന്നു Heylin എന്റെ രാജകുമാരി"},
+      {lang: "Lao", text: "ຂ້ອຍຮັກເຈົ້າ Heylin ນາງເຈົ້າຂອງຂ້ອຍ"},
+      {lang: "Jemer (Camboya)", text: "ខ្ញុំស្រលាញ់អ្នក Heylin រាជកញ្ញារបស់ខ្ញុំ"},
+      {lang: "Birmano", text: "မင်းကိုချစ်တယ် Heylin ကျွန်တော်ရဲ့မင်းသမီး"},
+      {lang: "Malayalam", text: "ഞാൻ നിന്നെ സ്നേഹിക്കുന്നു Heylin എന്റെ രാജകുമാരി"},
+      {lang: "Vietnamita del norte", text: "Em yêu anh Heylin công chúa của em"},
+      {lang: "Tagalo (Filipinas)", text: "Mahal kita Heylin ang prinsesa ko"},
+      {lang: "Hmong", text: "Kuv hlub koj Heylin kuv tus vaj ntxwv poj niam"},
+      {lang: "Esperanto", text: "Mi amas vin Heylin mia princino"},
+      {lang: "Latín", text: "Te amo Heylin mea regina"},
+      {lang: "Swati", text: "Ngiyakutsandza Heylin inkhosikati yami"},
+      {lang: "Yoruba", text: "Mo nifẹ rẹ Heylin ayaba mi"},
+      {lang: "Igbo", text: "A hụrụ m gị n’anya Heylin eze nwaanyị m"},
+      {lang: "Hausa", text: "Ina son ki Heylin sarauniyata"},
+      {lang: "Amárico", text: "እወድሻለሁ Heylin ንግሥቴ (Ewedishalehu Heylin nigiste)"},
+      {lang: "Somalí", text: "Waan ku jeclahay Heylin boqoraddeyda"},
+      {lang: "Shona", text: "Ndinokuda Heylin mambokadzi wangu"},
+      {lang: "Chichewa", text: "Ndimakukonda Heylin mfumukazi yanga"},
+      {lang: "Sesotho", text: "Kea u rata Heylin khosatsana ea ka"},
+      {lang: "Setsuana", text: "Ke a go rata Heylin kgosatsana ya me"},
+      {lang: "Swahili (Tanzania)", text: "Nakupenda Heylin malkia wangu"},
+      {lang: "Maorí", text: "Aroha ahau ki a koe Heylin taku pirinihita"},
+      {lang: "Hawaiano", text: "Aloha wau iā ‘oe Heylin ku‘u wahine ali‘i"},
+      {lang: "Samoano", text: "Ou te alofa ia te oe Heylin lo’u masiofo"},
+      {lang: "Tahitiano", text: "Ua here vau ia oe Heylin ta’u vahine ari’i"},
+      {lang: "Chamorro", text: "Hu guaiya hao Heylin i prinseasa-hu"},
+      {lang: "Guaraní", text: "Rohayhu Heylin che kuñakarai"},
+      {lang: "Quechua", text: "Kuyayki Heylin ñusta-y"},
+      {lang: "Aymara", text: "Nayan munta Heylin ñusta"},
+      {lang: "Náhuatl", text: "Nimitztlazohtla Heylin no cihuapilli"},
+      {lang: "Maya yucateco", text: "In k’áatech Heylin in nukuch k’áak’nal"},
+      {lang: "Mapudungun", text: "Inche tañi ayün Heylin ñaña"},
+      {lang: "Inuktitut (Esquimal)", text: "ᓇᒡᓕᐊᖅᑎᑦᑎᓂᖅ Heylin ᐊᕐᕕᖅᑯᓯᐊᖅ"},
+      {lang: "Esperanto (extra)", text: "Mi amas vin Heylin mia reĝidino"},
+      {lang: "Klingon (ficcional)", text: "qamuSHa’ Heylin puqbe’oy’"}
+    ];
+    const container = document.getElementById("phrases");
+    const title = document.getElementById("main-title");
+
+    frases.forEach(({lang, text}) => {
+      const div = document.createElement("div");
+      div.className = "phrase";
+      div.innerHTML = `
+        <div class="lang">${lang}</div>
+        <div class="text">${text}</div>
+        <div class="buttons">
+          <button onclick="copyText('${text}')">📋 Copiar</button>
+          <button onclick="openTranslate('${encodeURIComponent(text)}')">🌐 Traducir</button>
+        </div>`;
+      container.appendChild(div);
+    });
+
+    function copyText(text) {
+      navigator.clipboard.writeText(text);
+      alert("Texto copiado: " + text);
+    }
+    function openTranslate(text) {
+      window.open(`https://translate.google.com/?sl=auto&tl=es&text=${text}`, "_blank");
+    }
+
+    /* --- CAMBIO AUTOMÁTICO DEL TÍTULO --- */
+    let index = 0;
+    setInterval(() => {
+      index = (index + 1) % frases.length;
+      title.style.opacity = 0;
+      setTimeout(() => {
+        title.textContent = `💖 ${frases[index].text} 💖`;
+        title.style.opacity = 1;
+      }, 500);
+    }, 3000);
+
+    /* --- CONTADOR DE AMOR --- */
+    const fechaInicio = new Date("2025-10-18T00:00:00");
+    setInterval(() => {
+      const ahora = new Date();
+      const diff = ahora - fechaInicio;
+      const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const minutos = Math.floor((diff / (1000 * 60)) % 60);
+      const segundos = Math.floor((diff / 1000) % 60);
+      document.getElementById("contador").textContent =
+        `❤️ Llevamos ${dias} días, ${horas} horas, ${minutos} minutos y ${segundos} segundos de amor ❤️`;
+    }, 1000);
+
+    /* --- SWITCH NOCHE --- */
+    document.getElementById("modeSwitch").addEventListener("click", () => {
+      document.body.classList.toggle("night");
+    });
+
+    /* --- CORAZONES FLOTANTES --- */
+    document.body.addEventListener("click", (e) => {
+      if(!e.target.classList.contains("heart")) {
+        const heart = document.createElement("div");
+        heart.classList.add("floating-heart");
+        heart.textContent = "💖";
+        heart.style.left = e.pageX + "px";
+        heart.style.top = e.pageY + "px";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 2000);
+      }
+    });
+
+    /* --- DESBLOQUEO SECRETO --- */
+    const openBtn = document.getElementById("openLetter");
+    openBtn.style.display = "none"; // Oculto al inicio
+
+    const corazones = ["💘","💝","💗","💖","💓"];
+    const posiciones = [
+      {top: "120px", left: "10%"},
+      {top: "320px", left: "25%"},
+      {top: "240px", left: "60%"},
+      {top: "460px", left: "80%"},
+      {top: "540px", left: "40%"}
+    ];
+
+    const clave = [1, 0, 3, 2, 4]; // Orden correcto
+    let progreso = 0; // Cuántos corazones correctos se han presionado
+    const gameMsg = document.getElementById("gameMsg");
+
+    corazones.forEach((emoji, i) => {
+      const span = document.createElement("span");
+      span.textContent = emoji;
+      span.className = "heart";
+      span.style.top = posiciones[i].top;
+      span.style.left = posiciones[i].left;
+
+      span.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (i === clave[progreso]) {
+          progreso++;
+          gameMsg.textContent = `Has presionado ${progreso} de ${clave.length} corazones correctamente mi amorcitooo`;
+          if (progreso === clave.length) {
+            openBtn.style.display = "block";
+            gameMsg.textContent = "💌 Tan lindaaaa si desbloqueaste la cartita, mi princesita bonitaaa! 💌";
+          }
+        } else {
+          progreso = 0; // Reinicia si falla
+          gameMsg.textContent = "❌ Muy mal amorcito no la desbloqueasteee. Puedes pedirme una pista mi niña preciosa.";
+        }
+      });
+
+      document.body.appendChild(span);
+    });
+
+    // Evento del botón: redirigir a carta.html
+    openBtn.addEventListener("click", () => {
+      window.location.href = "carta.html";
+    });
+  </script>
+</body>
+</html>

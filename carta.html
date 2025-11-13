@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💌 Cartita para mi niña lindaaa 💌</title>
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: radial-gradient(circle at bottom, #2b3a4a, #1a2332);
+      color: white;
+      font-family: "Poppins", sans-serif;
+      text-align: justify; /* Justificado */
+      padding: 40px;      /* Margen alrededor */
+      overflow-y: auto;    /* Scroll si es necesario */
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 20px;
+      text-align: center; /* Centrado solo el título */
+    }
+
+    p {
+      font-size: 1.2em;
+      max-width: 700px;
+      margin: 0 auto 20px auto;
+      line-height: 1.6em;
+    }
+
+    /* Estrellas animadas */
+    .star {
+      position: absolute;
+      background: yellow;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: twinkle 2s infinite ease-in-out alternate;
+    }
+
+    @keyframes twinkle {
+      from { opacity: 0.2; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1.2); }
+    }
+
+    /* Corazones flotantes */
+    .heart {
+      position: absolute;
+      color: #ff7eb9;
+      font-size: 24px;
+      animation: float 6s infinite ease-in-out;
+    }
+    @keyframes float {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      50% { transform: translateY(-40px) scale(1.2); opacity: 0.8; }
+      100% { transform: translateY(0) scale(1); opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>💌 Para mi princesa bonita que amo demasiado con todo mi corazón 💌</h1>
+
+  <p>
+    Mi amorcitoooo, no sé si veas la cartita justo el día de nuestro primer mes o antes,
+    ya que no sé si descubriste lo de la cartita mi cielito JAJA, pero igual me siento
+    muy feliz de cumplir un mes contigo. Ha sido un mes hermoso y muy lindo donde pude
+    estar a tu lado y sentirme tan feliz, y es por lo feliz que me haces. Cada momento
+    a tu lado, mi niña, es muy lindo y especial, aunque no podamos vernos seguido.
+    Yo soy feliz al hablar contigo todos los días porque te amo mucho, te amo más que
+    ayer pero menos que mañana. La verdad es que no sé cómo expresarme, ya que nunca
+    había sentido esta sensación de amar tanto a alguien y quererla siempre presente.
+    Tú eres la mujer que quiero, anhelo, deseo y necesito a mi lado, porque tú lo
+    eres todo para mí. No quiero a nadie más que tú, y aunque tengamos problemitas
+    y peleemos a veces, siempre buscaré la forma de resolver las cosas mi niña, pero
+    ayúdame también, porque no quiero que esto se acabe jamás. Te amo muchísimo
+    muchísimo y nunca jamás quisiera que te fueras. Este será nuestro primer mes de
+    todos los que tendremos JAJA, porque luego nos vamos a casar y contaremos los
+    meses de casados mi amorcito. Gracias por estar presente aquí conmigo, te amo
+    muchísimo mi princesita preciosa.
+  </p>
+
+  <p>
+    Espero que te haya gustado, mi niña. Tal vez sea algo simple, pero con demasiado
+    amor hacia ti, mi amorcito linda. <br><br>
+    Con mucho amor, <br>
+    Tu Futuro Esposoo Jhonatan Alexanderrr  💖
+  </p>
+
+  <script>
+    // Estrellas
+    for (let i = 0; i < 80; i++) {
+      const star = document.createElement("div");
+      star.className = "star";
+      star.style.width = star.style.height = Math.random() * 3 + "px";
+      star.style.top = Math.random() * 100 + "%";
+      star.style.left = Math.random() * 100 + "%";
+      star.style.animationDelay = Math.random() * 3 + "s";
+      document.body.appendChild(star);
+    }
+
+    // Corazones flotantes
+    for (let i = 0; i < 10; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "💖";
+      heart.style.top = Math.random() * 90 + "%";
+      heart.style.left = Math.random() * 90 + "%";
+      heart.style.animationDelay = Math.random() * 3 + "s";
+      document.body.appendChild(heart);
+    }
+  </script>
+</body>
+</html>
